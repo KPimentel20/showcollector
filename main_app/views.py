@@ -7,12 +7,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 # Add the Show class & list and view function below the imports
-class Show:  # Note that parens are optional if not inheriting from another class
-  def __init__(self, name, genre, description, releaseyear):
-    self.name = name
-    self.genre = genre
-    self.description = description
-    self.releaseyear = releaseyear
+from .models import Show
 
 shows = [
   Show('Insecure', 'Comedy', 'Issa Rae', 2016),
@@ -27,5 +22,11 @@ def home(request):
 def about(request):
     return render(request, 'about.html')
 #Add a new view
+
 def shows_index(request):
+    shows = Show.objects.all()
     return render(request, 'shows/index.html', { 'shows': shows })
+
+def shows_detail(request, show_id):
+  show = Show.objects.get(id=show_id)
+  return render(request, 'shows/detail.html', { 'show': show })
