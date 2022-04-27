@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 # Create your views here.
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView
 # Add the following import
 from django.http import HttpResponse
-from .models import Show
+from .models import Show, Creator
 from .forms import StreamingServiceForm
 
 
@@ -55,6 +56,17 @@ def shows_detail(request, show_id):
 def add_streamingservice(request, show_id):
   pass
 
+# path('shows/<int:show_id>/' <- this is where show_id comes from-
+def shows_detail(request, show_id):
+    show = Show.objects.get(id=show_id)
+    creators_show_doesnt_have = Creator.objects.exclude(id__in = show.creators.all().values_list('id'))
+    # create an instance of StreamingServiceForm
+    streamingservice_form = StreamingServiceForm()
+
+    return render(request, 'shows/detail.html', {'show': show, 'streamingservice_form': streamingservice_form,
+    'creators': creators_show_doesnt_have    
+    })
+
 def add_streamingservice(request, show_id):
   # create a ModelForm instance using the data in request.POST
   form = StreamingServiceForm(request.POST)
@@ -66,3 +78,26 @@ def add_streamingservice(request, show_id):
     new_streamingservice.show_id = show_id
     new_streamingservice.save()
   return redirect('detail', show_id=show_id)
+
+def assoc_creator(request, show_id, creator_id):
+  Show.objects.get(id=show_id).creators.add(creator_id)
+  return redirect('detail', show_id=show_id)
+
+
+class CreatorList(ListView):
+  model = Creator
+
+class CreatorDetail(DetailView):
+  model = Creator
+
+class CreatorCreate(CreateView):
+  model = Creator
+  fields = '__all__'
+
+class CreatorUpdate(UpdateView):
+  model = Creator
+  fields = ['name', 'interest']
+
+class CreatorDelete(DeleteView):
+  model = Creator
+  success_url = '/creators/'

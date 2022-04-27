@@ -2,11 +2,23 @@ from django.db import models
 from django.urls import reverse
 
 # Create your models here.
+class Creator(models.Model):
+    name = models.CharField(max_length=50)
+    interest = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('creators_detail', kwargs={'pk': self.id})
+
+
 class Show(models.Model): # Note that parens are optional if not inheriting from another class
     name = models.CharField(max_length=100)
     genre = models.CharField(max_length=100)
     description = models.CharField(max_length=100)
     releaseyear = models.IntegerField()
+    creator = models.ManyToManyField(Creator)
 
 releaseyear = models.IntegerField()
     # new code below
@@ -43,3 +55,4 @@ def __str__(self):
 
 class Meta:
     ordering = ['-date']
+
