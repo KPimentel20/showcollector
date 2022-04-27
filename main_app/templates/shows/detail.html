@@ -31,7 +31,7 @@
     </form>
     <table class="striped">
       <thead>
-        <tr><th>Date</th><th>Watch</th></tr>
+        <tr><th>Date</th><th>Channel</th></tr>
       </thead>
       <tbody>
         {% for streamingservice in show.streamingservice_set.all %}
@@ -59,7 +59,7 @@
 			</div>
 		  {% endfor %}
 		{% else %}
-		  <h5>No Creators :(</h5>
+		  <h5>No Creators</h5>
 		{% endif %}
 	  </div>
 	  <!-- Picking Creators will come after this line -->

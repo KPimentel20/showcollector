@@ -20,11 +20,10 @@
         </ul>
         <ul class="right">
           <li><a href="/about">About</a></li>
-          <li><a href="/shows">View Shows</a></li>
-          <li><a href="{% url 'about' %}">About</a></li>
-          <!-- new link below -->
-          <li><a href="{% url 'shows_create' %}">Add A Show</a></li>
-          <li><a href="{% url 'index' %}">View All My Shows</a></li>   
+          <li><a href="/shows">Shows</a></li>
+          <li><a href="{% url 'index' %}">View All Shows</a></li> 
+          <li><a href="{% url 'creators_create' %}">Add A Creator</a></li>
+          <li><a href="{% url 'shows_create' %}">Add A Show</a></li>  
         </ul>
       </div>
     </nav>
